@@ -17,16 +17,10 @@ router = APIRouter(
 
 @router.get("/responses", response_model=List[MentalHealthOut])
 def read_all_responses(
-    skip: int = Query(0, ge=0, description="Jumlah data yang dilewati (offset)"),
-    limit: int = Query(100, ge=1, le=100, description="Jumlah maksimum data yang dikembalikan"),
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=100),
     db: Session = Depends(get_db),
 ):
-    """
-    Mengembalikan data mental_health_responses dengan pagination.
-
-    - skip  : offset (mulai dari data ke berapa), default 0
-    - limit : berapa banyak data yang dikembalikan, default 100 (maks 100)
-    """
     data = (
         db.query(MentalHealthResponse)
         .order_by(MentalHealthResponse.id)
@@ -35,6 +29,7 @@ def read_all_responses(
         .all()
     )
     return data
+
 
 
 @router.get("/responses/{response_id}", response_model=MentalHealthOut)

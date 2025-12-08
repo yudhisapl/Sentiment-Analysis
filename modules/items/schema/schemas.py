@@ -18,8 +18,10 @@ class MentalHealthUpdate(BaseModel):
     status: Optional[str] = None
 
 
-class MentalHealthOut(MentalHealthBase):
+class MentalHealthOut(BaseModel):
     id: int
+    clean_statement: str | None = None   # hanya ini
+    status: str
 
     class Config:
         orm_mode = True
