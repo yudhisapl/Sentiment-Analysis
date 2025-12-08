@@ -18,10 +18,9 @@ class MentalHealthCreate(MentalHealthBase):
 class MentalHealthUpdate(BaseModel):
     """
     Dipakai di endpoint PUT (update data oleh psikolog setelah konsultasi).
-    'status' di sini artinya status DIAGNOSA AKHIR.
+    Hanya boleh mengubah status (diagnosa akhir).
     """
-    statement: Optional[str] = None
-    status: Optional[str] = None
+    status: str
 
 
 class MentalHealthOut(BaseModel):

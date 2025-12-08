@@ -33,11 +33,8 @@ def update_response(
     db: Session = Depends(get_db),
 ):
     """
-    Memperbarui statement dan/atau status (diagnosa akhir) untuk id tertentu.
-
-    Sesuai flowchart:
-    - Dipakai setelah 'Konsultasi lebih lanjut dengan Psikolog'
-    - Psikolog meng-update kolom 'status' sebagai diagnosa akhir.
+    Memperbarui status (diagnosa akhir) untuk id tertentu.
+    Statement TIDAK boleh diubah di sini.
     """
     obj = (
         db.query(MentalHealthResponse)
@@ -51,13 +48,11 @@ def update_response(
             detail=f"Response dengan id={response_id} tidak ditemukan.",
         )
 
-    if payload.statement is not None:
-        obj.statement = payload.statement
-    if payload.status is not None:
-        # status di sini = DIAGNOSA AKHIR dari psikolog
-        obj.status = payload.status
+    # Hanya update status (diagnosa akhir)
+    obj.status = payload.status
 
     db.commit()
     db.refresh(obj)
 
     return _to_out(obj)
+
